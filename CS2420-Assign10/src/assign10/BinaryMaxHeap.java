@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 
 import java.util.List;
 
-public class BinaryMaxHeap<E> implements PriorityQueue<E>{
+public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 	
 	private E maxHeap[];
 	private Comparator<? super E> cmp;
@@ -111,6 +111,13 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 		}
 		//TODO: actually remove the item
 		return null;
+	}
+	
+	private int compareItems(E item1, E item2) {
+		if (cmp == null) {
+			return item1.compareTo(item2);
+		}
+		return cmp.compare(item1, item2);
 	}
 
 	/**
