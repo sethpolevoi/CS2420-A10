@@ -100,17 +100,15 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 			throw new NoSuchElementException("BinaryMaxHeap is Empty");
 		}
 		E maxVal = peek();
-		remove(0);
+		removeMax();
 		return maxVal;
 	}
 	
-	private E remove(int index) {
-		//If item doesn't exist at this index
-		if(index > size) {
-			return null;
-		}
+	private boolean removeMax() {
+		
 		//TODO: actually remove the item
-		return null;
+		return false;
+	}return null;
 	}
 	
 	private int compareItems(E item1, E item2) {
