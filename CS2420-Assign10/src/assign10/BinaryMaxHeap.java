@@ -7,6 +7,8 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 	
 	private E[] maxHeap;
 	private Comparator<? super E> cmp;
+	private int size;//how many elements are in the array
+	private int capacity;//how many elements could be in the array, the maximum amount
 	
 	// This constructor creates an empty BinaryMax Heap and assumes
 	//that natural ordering (comparable) will be used for comparisons.	
@@ -14,6 +16,13 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 	public BinaryMaxHeap() {
 		maxHeap = new E[10];
 		cmp = null;
+		if(size+1 > capacity) {
+			growArray();
+		}
+	}
+	
+	private void growArray() {
+		
 	}
 	
 	public BinaryMaxHeap(Comparator<? super E>) {
