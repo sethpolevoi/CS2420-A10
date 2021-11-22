@@ -61,6 +61,18 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 		//switch references so larger array is the new heap
 		maxHeap = tempMaxHeap;
 	}
+	
+	private int leftChildIndex(int parentIndex) {
+		return (parentIndex * 2) + 1;
+	}
+	
+	private int rightChildIndex(int parentIndex) {
+		return (parentIndex * 2) + 2;
+	}
+	
+	private int parentIndex(int childIndex) {
+		return (childIndex - 1) / 2;
+	}
 
 	/**
 	 * Returns, but does not remove, the maximum item this priority queue.
