@@ -3,9 +3,11 @@ package assign10;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
+import java.util.List;
+
 public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 	
-	private E[] maxHeap;
+	private E maxHeap[];
 	private Comparator<? super E> cmp;
 	private int size;//how many elements are in the array
 	private int capacity;//how many elements could be in the array, the maximum amount
@@ -14,7 +16,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 	//that natural ordering (comparable) will be used for comparisons.	
 	 
 	public BinaryMaxHeap() {
-		maxHeap = new E[10];
+		maxHeap = (E[]) new Object[10];
 		cmp = null;
 		
 	}
@@ -31,12 +33,19 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 		
 	}
 
+	/**
+	 * Adds the given item to this priority queue.
+	 * O(1) in the average case, O(log N) in the worst case
+	 * 
+	 * @param item
+	 */
 	@Override
 	public void add(E item) {
-		// TODO Auto-generated method stub
+		
 		if(size+1 > capacity) {
 			growArray();
 		}
+		
 	}
 	
 	private void growArray() {
@@ -53,34 +62,58 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 		maxHeap = tempMaxHeap;
 	}
 
+	/**
+	 * Returns, but does not remove, the maximum item this priority queue.
+	 * O(1)
+	 * 
+	 * @return the maximum item
+	 * @throws NoSuchElementException if this priority queue is empty
+	 */
 	@Override
 	public E peek() throws NoSuchElementException {
 		//return first item in array(largest item)
 		return maxHeap[0];
 	}
 
+	/**
+	 * Returns and removes the maximum item this priority queue.
+	 * O(log N)
+	 * 
+	 * @return the maximum item
+	 * @throws NoSuchElementException if this priority queue is empty
+	 */
 	@Override
 	public E extractMax() throws NoSuchElementException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * Returns the number of items in this priority queue.
+	 * O(1)
+	 */
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
+	/**
+	 * Returns true if this priority queue is empty, false otherwise.
+	 * O(1)
+	 */
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size == 0;
 	}
 
+	/**
+	 * Empties this priority queue of items.
+	 * O(1)
+	 */
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		maxHeap = (E[]) new Object[10];
+		size = 0;
 	}
 
 	@Override
