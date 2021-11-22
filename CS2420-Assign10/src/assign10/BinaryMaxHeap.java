@@ -96,7 +96,20 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 	 */
 	@Override
 	public E extractMax() throws NoSuchElementException {
-		// TODO Auto-generated method stub
+		if( isEmpty() ) {
+			throw new NoSuchElementException("BinaryMaxHeap is Empty");
+		}
+		E maxVal = peek();
+		remove(0);
+		return maxVal;
+	}
+	
+	private E remove(int index) {
+		//If item doesn't exist at this index
+		if(index > size) {
+			return null;
+		}
+		//TODO: actually remove the item
 		return null;
 	}
 
