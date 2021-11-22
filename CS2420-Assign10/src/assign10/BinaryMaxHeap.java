@@ -25,15 +25,15 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 		
 	}
 	
-	public BinaryMaxHeap(Comparator<? super E>) {
+	public BinaryMaxHeap(Comparator<? super E> cmp) {
 		
 	}
 	
-	public BinaryMaxHeap(List<? extends E>) {
+	public BinaryMaxHeap(List<? extends E> numList) {
 		
 	}
 	
-	public BinaryMaxHeap(List<? extends E>, Comparator<? super E>) {
+	public BinaryMaxHeap(List<? extends E> numList, Comparator<? super E> cmp) {
 		
 	}
 
