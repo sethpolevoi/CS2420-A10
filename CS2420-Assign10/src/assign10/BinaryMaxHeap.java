@@ -63,11 +63,19 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 	}
 	
 	private int leftChildIndex(int parentIndex) {
-		return (parentIndex * 2) + 1;
+		int index = (parentIndex * 2) + 1;
+		if (index > size) {
+			return parentIndex;
+		}
+		return index;
 	}
 	
 	private int rightChildIndex(int parentIndex) {
-		return (parentIndex * 2) + 2;
+		int index = (parentIndex * 2) + 2;
+		if (index > size) {
+			return parentIndex;
+		}
+		return index;
 	}
 	
 	private int parentIndex(int childIndex) {
@@ -105,10 +113,55 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 	}
 	
 	private boolean removeMax() {
+		//replace max with last item on last level
+		maxHeap[0] = maxHeap[size-1];
 		
-		//TODO: actually remove the item
+		//remove last item
+		size--;
+		
+		//parent is currently the top of the heap
+		int parentIndex = 0;
+		
+		//compare parent with left and right child
+		int leftCompare = leftCompare(parentIndex);
+		int rightCompare = rightCompare(parentIndex);
+		
+		//while parent is less than either of its children
+		while( leftCompare < 0 || rightCompare < 0) {
+			//if left child is 
+			if(leftCompare > rightCompare) {
+				swapLeft(parentIndex);
+				parentIndex = leftChildIndex(parentIndex);
+			}else if(leftCompare < rightCompare){
+				swapRight(parentIndex);
+				parentIndex = rightChildIndex(parentIndex);
+			}else {
+				break;
+			}
+			leftCompare = leftCompare(parentIndex);
+			rightCompare = rightCompare(parentIndex);
+		}
 		return false;
-	}return null;
+	}
+	
+	private int leftCompare(int parentIndex) {
+		return compareItems(maxHeap[parentIndex], maxHeap[leftChildIndex(parentIndex)] );
+	}
+	
+	private int rightCompare(int parentIndex) {
+		return compareItems(maxHeap[parentIndex], maxHeap[rightChildIndex(parentIndex)] );
+	}
+	
+	private void swapLeft(int parentIndex)	{
+		E holder = maxHeap[parentIndex];
+		maxHeap[parentIndex] = maxHeap[leftChildIndex(parentIndex)];
+		maxHeap[leftChildIndex(parentIndex)] = holder;
+	}
+	
+	private void swapRight(int parentIndex)	{
+		E holder = maxHeap[parentIndex];
+		maxHeap[parentIndex] = maxHeap[rightChildIndex(parentIndex)];
+		maxHeap[rightChildIndex(parentIndex)] = holder;
 	}
 	
 	private int compareItems(E item1, E item2) {
@@ -151,6 +204,13 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+//	public static void main(String[] args) {
+//		BinaryMaxHeap<Integer> BH = new BinaryMaxHeap<>();
+//		Integer o1 = 13;
+//		Integer o2 = 14;
+//		System.out.println( BH.compareItems(o1,o2) );
+//	}
 
 
 }
