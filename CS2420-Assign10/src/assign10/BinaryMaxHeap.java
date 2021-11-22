@@ -55,8 +55,8 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 
 	@Override
 	public E peek() throws NoSuchElementException {
-		// TODO Auto-generated method stub
-		return null;
+		//return first item in array(largest item)
+		return maxHeap[0];
 	}
 
 	@Override
