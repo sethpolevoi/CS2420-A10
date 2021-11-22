@@ -2,27 +2,22 @@ package assign10;
 
 import java.util.NoSuchElementException;
 
-public class BinaryMaxHeap<E> implements PriorityQueue{
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
+public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 
 	@Override
-	public void add(Object item) {
+	public void add(E item) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public Object peek() throws NoSuchElementException {
+	public E peek() throws NoSuchElementException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object extractMax() throws NoSuchElementException {
+	public E extractMax() throws NoSuchElementException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -50,5 +45,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 }
