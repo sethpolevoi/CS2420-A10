@@ -4,6 +4,8 @@ import java.util.NoSuchElementException;
 
 public class BinaryMaxHeap<E> implements PriorityQueue{
 
+	//TEST
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
