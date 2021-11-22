@@ -16,12 +16,6 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 	public BinaryMaxHeap() {
 		maxHeap = new E[10];
 		cmp = null;
-		if(size+1 > capacity) {
-			growArray();
-		}
-	}
-	
-	private void growArray() {
 		
 	}
 	
@@ -40,7 +34,23 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E>{
 	@Override
 	public void add(E item) {
 		// TODO Auto-generated method stub
+		if(size+1 > capacity) {
+			growArray();
+		}
+	}
+	
+	private void growArray() {
+		//create a new array twice the capacity as the current array
+		capacity = capacity*2;
+		E[] tempMaxHeap = (E[]) new Object[capacity];
 		
+		//copy over each element
+		for(int index = 0; index < size; index++) {
+			tempMaxHeap[index] = maxHeap[index];
+		}
+		
+		//switch references so larger array is the new heap
+		maxHeap = tempMaxHeap;
 	}
 
 	@Override
