@@ -249,8 +249,11 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 
 	@Override
 	public Object[] toArray() {
-		// TODO Auto-generated method stub
-		return null;
+		Object[] returnArray = new Object[this.size];
+		for(int i = 0; i < this.size; i++) {
+			returnArray[i] = maxHeap[i];
+		}
+		return returnArray;
 	}
 	
 // 	public static void main(String[] args) {
