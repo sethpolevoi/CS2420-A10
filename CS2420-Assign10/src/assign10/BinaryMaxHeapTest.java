@@ -14,6 +14,12 @@ import java.util.Random;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * This class tests all our public methods from BinaryMaxHeap
+ * 
+ * @author SETH POLEVOI and MIKE PHELPS
+ *
+ */
 class BinaryMaxHeapTest {
 
 	BinaryMaxHeap<Integer> BHIntEmpty = new BinaryMaxHeap<Integer>();
