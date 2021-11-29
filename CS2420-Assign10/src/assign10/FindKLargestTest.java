@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
  */
 class FindKLargestTest {
 
-//----------------------Test Find KLargestHeap ----------------------
+//----------------------Test FindKLargestHeap ----------------------
 	@Test
 	void testHeapNaturalOrderingPosNumbers() {
 		ArrayList<Integer> list = new ArrayList<Integer>();
@@ -243,9 +243,9 @@ class FindKLargestTest {
 		});
 	}
 
-//----------------------Stop Tests Find KLargestHeap --------------------
+//----------------------Stop Tests FindKLargestHeap --------------------
 
-//----------------------Start Tests Find KLargestSort -------------------
+//----------------------Start Tests FindKLargestSort -------------------
 	@Test
 	void testSortNaturalOrderingPosNumbers() {
 		ArrayList<Integer> list = new ArrayList<Integer>();
@@ -472,7 +472,7 @@ class FindKLargestTest {
 		});
 	}
 
-//----------------------Stop Tests Find KLargestSort --------------------	
+//----------------------Stop Tests FindKLargestSort --------------------	
 
 	protected class OrderByA implements Comparator<String> {
 
