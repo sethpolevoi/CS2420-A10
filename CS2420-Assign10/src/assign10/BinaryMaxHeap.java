@@ -138,6 +138,10 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	@Override
 	public E peek() throws NoSuchElementException {
+		//if heap is empty, throw error
+		if( isEmpty() ) {
+			throw new NoSuchElementException("BinaryMaxHeap is Empty");
+		}
 		//return first item in array(largest item)
 		return maxHeap[0];
 	}
@@ -151,6 +155,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	@Override
 	public E extractMax() throws NoSuchElementException {
+		//if heap is empty, throw error
 		if( isEmpty() ) {
 			throw new NoSuchElementException("BinaryMaxHeap is Empty");
 		}
