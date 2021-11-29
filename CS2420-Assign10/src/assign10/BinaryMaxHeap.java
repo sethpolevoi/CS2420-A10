@@ -322,6 +322,15 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		maxHeap[rightChildIndex(parentIndex)] = holder;
 	}
 
+	/**
+	 * This method works to compare two items using either comparable or comparator,
+	 * depending on which kind of items the heap is constructed to hold.
+	 * 
+	 * @param item1 first item to be compared
+	 * @param item2 second item to be compared
+	 * @return an int value 1 if item 1 is greater, -1 if value 1 is less than item
+	 *         2, 0 if they are equal
+	 */
 	@SuppressWarnings("unchecked")
 	private int innerCompare(E item1, E item2) {
 		if (cmp == null) {
@@ -353,7 +362,13 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	public void clear() {
 		size = 0;
 	}
+	
 
+	/**
+	 *This method returns an object array reflecting the current state of the 
+	 *backing array. The root of the tree will be at the 0th index, the following
+	 *items will be ordered in the tree from top to bottom - left to right,
+	 */
 	@Override
 	public Object[] toArray() {
 		Object[] returnArray = new Object[this.size];
