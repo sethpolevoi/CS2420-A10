@@ -364,6 +364,128 @@ class BinaryMaxHeapTest {
 	}
 
 	// -----------------------extractMax Tests End----------------------------
+	
+	// -----------------------add Tests Begin---------------------------------
+	
+	@Test
+	void testAddOneToEmpty() {
+		assertTrue(BHIntEmpty.isEmpty()); 
+		BHIntEmpty.add(7);
+		assertFalse(BHIntEmpty.isEmpty()); 
+		assertEquals(BHIntEmpty.extractMax(), 7);
+	}
+	
+	@Test
+	void testAddManyPositiveToEmpty() {
+		assertTrue(BHIntEmpty.isEmpty()); 
+		BHIntEmpty.add(7);
+		BHIntEmpty.add(8);
+		BHIntEmpty.add(3);
+		BHIntEmpty.add(1);
+		BHIntEmpty.add(100);
+		BHIntEmpty.add(2);
+		assertFalse(BHIntEmpty.isEmpty()); 
+		assertEquals(BHIntEmpty.size(), 6);
+		assertEquals(BHIntEmpty.extractMax(), 100);
+	}
+	
+	@Test
+	void testAddManyNegativeToEmpty() {
+		assertTrue(BHIntEmpty.isEmpty()); 
+		BHIntEmpty.add(-7);
+		BHIntEmpty.add(-8);
+		BHIntEmpty.add(-3);
+		BHIntEmpty.add(-1);
+		BHIntEmpty.add(-100);
+		BHIntEmpty.add(-2);
+		assertFalse(BHIntEmpty.isEmpty()); 
+		assertEquals(BHIntEmpty.size(), 6);
+		assertEquals(BHIntEmpty.extractMax(), -1);
+	}
+	
+	@Test
+	void testAddNewHighToPrePopulatedQueue() {
+		assertEquals(BHIntBig.peek(), 60);
+		BHIntBig.add(1000);
+		assertEquals(BHIntBig.peek(), 1000);
+	}
+	
+	@Test
+	void testAddMaxMaintanedAfterAddingLowerNumber() {
+		assertEquals(BHIntBig.peek(), 60);
+		BHIntBig.add(11);
+		assertEquals(BHIntBig.peek(), 60);
+	}
+	
+	@Test
+	void testManyAddCorrectOrder(){
+		BHIntEmpty.add(9);
+		BHIntEmpty.add(88);
+		BHIntEmpty.add(1);
+		BHIntEmpty.add(2);
+		BHIntEmpty.add(4);
+		BHIntEmpty.add(-9);
+		BHIntEmpty.add(66);
+		
+		assertEquals(BHIntEmpty.extractMax(), 88);
+		assertEquals(BHIntEmpty.extractMax(), 66);
+		assertEquals(BHIntEmpty.extractMax(), 9);
+		assertEquals(BHIntEmpty.extractMax(), 4);
+		assertEquals(BHIntEmpty.extractMax(), 2);
+		assertEquals(BHIntEmpty.extractMax(), 1);
+		assertEquals(BHIntEmpty.extractMax(), -9);
+	}
+	
+	@Test
+	void testAddOneStringToEmpty() {
+		assertTrue(BHStringEmpty.isEmpty()); 
+		BHStringEmpty.add("Mike");
+		assertFalse(BHStringEmpty.isEmpty()); 
+		assertEquals(BHStringEmpty.extractMax(), "Mike");
+	}
+	
+	@Test
+	void testAddManyStringsToEmpty() {
+		assertTrue(BHStringEmpty.isEmpty()); 
+		BHStringEmpty.add("Seth");
+		BHStringEmpty.add("Mike");
+		BHStringEmpty.add("Noah");
+		BHStringEmpty.add("Arthur");
+		BHStringEmpty.add("Caleb");
+		
+		assertFalse(BHStringEmpty.isEmpty()); 
+		assertEquals(BHStringEmpty.size(), 5);
+		assertEquals(BHStringEmpty.extractMax(), "Seth");
+	}
+	
+	@Test
+	void testNewHighStringBecomesMax() {
+		BHStringEmpty.add("Seth");
+		BHStringEmpty.add("Mike");
+		BHStringEmpty.add("Noah");
+		BHStringEmpty.add("Arthur");
+		BHStringEmpty.add("Caleb");
+		
+		assertEquals(BHStringEmpty.peek(), "Seth");
+		BHStringEmpty.add("ZZZ");
+		assertEquals(BHStringEmpty.peek(), "ZZZ");
+	}
+	
+	@Test
+	void testAddMaxMaintanedAfterAddingLowerString() {
+		BHStringEmpty.add("Seth");
+		BHStringEmpty.add("Mike");
+		BHStringEmpty.add("Noah");
+		BHStringEmpty.add("Arthur");
+		BHStringEmpty.add("Caleb");
+		
+		assertEquals(BHStringEmpty.peek(), "Seth");
+		BHStringEmpty.add("Adam");
+		assertEquals(BHStringEmpty.peek(), "Seth");
+	}
+	
+	// -----------------------add Tests End--------------------------------
+
 
 	// -----------------------clear Tests Begin----------------------------
 	@Test
@@ -530,8 +652,6 @@ class BinaryMaxHeapTest {
 	// -----------------------peek Tests End----------------------------
 	
 	
-	
-	
 	// -----------------------isEmpty Tests Begin----------------------------
 	@Test
 	void testIsEmptyNoAdds() {
@@ -611,7 +731,71 @@ class BinaryMaxHeapTest {
 	}
 	// -----------------------isEmpty Tests End----------------------------
 	
+	// -----------------------toArray Tests Begin-------------------------
 	
+	@Test
+	void testToArraySingleItemHeap() {
+		BHIntEmpty.add(-7);
+		String expected = "[-7]";
+		assertEquals(Arrays.toString(BHIntEmpty.toArray()), expected);
+	}
+	
+	@Test
+	void testToArraManyItemHeap() {
+		BHIntEmpty.add(7);
+		BHIntEmpty.add(6);
+		BHIntEmpty.add(9);
+		BHIntEmpty.add(11);
+		BHIntEmpty.add(35);
+		String expected = "[35, 11, 7, 6, 9]";
+		assertEquals(Arrays.toString(BHIntEmpty.toArray()), expected);
+	}
+	
+	@Test
+	void testToArraManyItemHeapStrings() {
+		BHStringEmpty.add("Seth");
+		BHStringEmpty.add("Mike");
+		BHStringEmpty.add("Apple");
+		String expected = "[Seth, Mike, Apple]";
+		assertEquals(Arrays.toString(BHStringEmpty.toArray()), expected);
+	}
+	
+	@Test
+	void testToArrayEmptyHeap() {
+		String expected = "[]";
+		assertEquals(Arrays.toString(BHIntEmpty.toArray()), expected);
+	}
+	
+	@Test
+	void testToArrayAfterAddingNewSmallest() {
+		BHIntEmpty.add(7);
+		BHIntEmpty.add(6);
+		BHIntEmpty.add(9);
+		BHIntEmpty.add(11);
+		BHIntEmpty.add(35);
+		String expected = "[35, 11, 7, 6, 9]";
+		assertEquals(Arrays.toString(BHIntEmpty.toArray()), expected);
+		String expected2 = "[35, 11, 7, 6, 9, -30]";
+		BHIntEmpty.add(-30);
+		assertEquals(Arrays.toString(BHIntEmpty.toArray()), expected2);
+	}
+	
+	@Test
+	void testToArrayAfterAddingNewHighest() {
+		BHIntEmpty.add(7);
+		BHIntEmpty.add(6);
+		BHIntEmpty.add(9);
+		BHIntEmpty.add(11);
+		BHIntEmpty.add(35);
+		BHIntEmpty.add(-30);
+		String expected = "[35, 11, 7, 6, 9, -30]";
+		assertEquals(Arrays.toString(BHIntEmpty.toArray()), expected);
+		String expected2 = "[100, 11, 35, 6, 9, -30, 7]";
+		BHIntEmpty.add(100);
+		assertEquals(Arrays.toString(BHIntEmpty.toArray()), expected2);
+	}
+	
+	// -----------------------toArray Tests End-----------------------------
 	
 
 	// -----------------------Comparator classes----------------------------
