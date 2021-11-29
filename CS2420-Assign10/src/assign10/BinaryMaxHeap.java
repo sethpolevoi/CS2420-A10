@@ -1,5 +1,6 @@
 package assign10;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
@@ -177,32 +178,45 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		//compare parent with left and right child
 		int leftCompare = leftCompare(parentIndex);
 		int rightCompare = rightCompare(parentIndex);
+		int childsCompare = childsCompare(parentIndex);
 		
 		//swap parent until it's in the correct location
 		//while parent is less than either of its children
 		while( leftCompare < 0 || rightCompare < 0) {
-			//if left child is 
-			if(leftCompare < rightCompare) {
+			//if left child is smaller than right child
+			if( childsCompare < 0) {
 				swapLeft(parentIndex);
 				parentIndex = leftChildIndex(parentIndex);
-			}else if(leftCompare > rightCompare){
+			}else if( childsCompare > 0){
 				swapRight(parentIndex);
 				parentIndex = rightChildIndex(parentIndex);
 			}else {//they are equal
 				break;
 			}
+			childsCompare = childsCompare(parentIndex);
 			leftCompare = leftCompare(parentIndex);
 			rightCompare = rightCompare(parentIndex);
 		}
 		return false;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @param parentIndex
+	 * @return				negative if parent is less than left child,
+	 * 						positive if parent is greater than left child
+	 */
 	private int leftCompare(int parentIndex) {
 		return innerCompare(maxHeap[parentIndex], maxHeap[leftChildIndex(parentIndex)] );
 	}
 	
 	private int rightCompare(int parentIndex) {
 		return innerCompare(maxHeap[parentIndex], maxHeap[rightChildIndex(parentIndex)] );
+	}
+	
+	private int childsCompare(int parentIndex)	{
+		return -innerCompare(maxHeap[leftChildIndex(parentIndex)], maxHeap[rightChildIndex(parentIndex)] );
 	}
 	
 	private void swapLeft(int parentIndex)	{
@@ -263,9 +277,23 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	
 // 	public static void main(String[] args) {
 // 		BinaryMaxHeap<Integer> BH = new BinaryMaxHeap<Integer>();
-// 		Integer o1 = 13;
-// 		Integer o2 = 14;
-// 		System.out.println( BH.innerCompare(o1,o2) );
+// 		System.out.println( Arrays.toString( BH.toArray() ) );
+// 		BH.add(13);
+// 		System.out.println( Arrays.toString( BH.toArray() ) );
+// 		BH.add(14);
+// 		System.out.println( Arrays.toString( BH.toArray() ) );
+// 		BH.add(-2);
+// 		System.out.println( Arrays.toString( BH.toArray() ) );
+// 		BH.add(48);
+// 		System.out.println( Arrays.toString( BH.toArray() ) );
+// 		System.out.println( BH.extractMax() );
+// 		System.out.println( Arrays.toString( BH.toArray() ) );
+// 		System.out.println( BH.extractMax() );
+// 		System.out.println( Arrays.toString( BH.toArray() ) );
+// 		System.out.println( BH.extractMax() );
+// 		System.out.println( Arrays.toString( BH.toArray() ) );
+// 		System.out.println( BH.extractMax() );
+// 		System.out.println( Arrays.toString( BH.toArray() ) );	
 // 	}
 
 
