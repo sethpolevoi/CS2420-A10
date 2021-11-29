@@ -160,6 +160,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	private int leftChildIndex(int parentIndex) {
 		int index = (parentIndex * 2) + 1;
+		// if child doesn't exist, return parent
 		if (index > size) {
 			return parentIndex;
 		}
@@ -175,6 +176,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	 */
 	private int rightChildIndex(int parentIndex) {
 		int index = (parentIndex * 2) + 2;
+		// if child doesn't exist, return parent
 		if (index > size) {
 			return parentIndex;
 		}
@@ -182,8 +184,11 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 
 	/**
-	 * @param childIndex
-	 * @return
+	 * Returns the index of the location of the parent value, given the index
+	 * location of one of the children
+	 * 
+	 * @param childIndex Index of child value
+	 * @return Returns index value of the parent of the given child
 	 */
 	private int parentIndex(int childIndex) {
 		return (childIndex - 1) / 2;
@@ -217,11 +222,19 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		if (isEmpty()) {
 			throw new NoSuchElementException("BinaryMaxHeap is Empty");
 		}
+		// store max value to return later
 		E maxVal = peek();
+
+		// remove and reorganize the heap
 		removeMax();
+
 		return maxVal;
 	}
 
+	/**
+	 * Deletes the maximum value and reorganizes the heap to remain a priority queue
+	 * 
+	 */
 	private void removeMax() {
 		// replace max with last item on last level
 		maxHeap[0] = maxHeap[size - 1];
@@ -255,7 +268,7 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	}
 
 	/**
-	 * 
+	 * Compares the values of a parent and it's left child
 	 * 
 	 * @param parentIndex
 	 * @return negative if parent is less than left child, positive if parent is
@@ -265,6 +278,13 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 		return innerCompare(maxHeap[parentIndex], maxHeap[leftChildIndex(parentIndex)]);
 	}
 
+	/**
+	 * Compares the values of a parent and it's right child
+	 * 
+	 * @param parentIndex
+	 * @return negative if parent is less than left child, positive if parent is
+	 *         greater than left child
+	 */
 	private int rightCompare(int parentIndex) {
 		return innerCompare(maxHeap[parentIndex], maxHeap[rightChildIndex(parentIndex)]);
 	}
