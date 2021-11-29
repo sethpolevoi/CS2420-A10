@@ -187,11 +187,9 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 			if( childsCompare < 0) {
 				swapLeft(parentIndex);
 				parentIndex = leftChildIndex(parentIndex);
-			}else if( childsCompare > 0){
+			} else {//if right child is smaller or both childs are equal
 				swapRight(parentIndex);
 				parentIndex = rightChildIndex(parentIndex);
-			}else {//they are equal
-				break;
 			}
 			childsCompare = childsCompare(parentIndex);
 			leftCompare = leftCompare(parentIndex);
