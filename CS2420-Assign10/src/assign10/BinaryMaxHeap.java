@@ -270,9 +270,9 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	/**
 	 * Compares the values of a parent and it's left child
 	 * 
-	 * @param parentIndex
+	 * @param parentIndex Index of the location of the parent
 	 * @return negative if parent is less than left child, positive if parent is
-	 *         greater than left child
+	 *         greater than the left child
 	 */
 	private int leftCompare(int parentIndex) {
 		return innerCompare(maxHeap[parentIndex], maxHeap[leftChildIndex(parentIndex)]);
@@ -281,24 +281,41 @@ public class BinaryMaxHeap<E> implements PriorityQueue<E> {
 	/**
 	 * Compares the values of a parent and it's right child
 	 * 
-	 * @param parentIndex
-	 * @return negative if parent is less than left child, positive if parent is
-	 *         greater than left child
+	 * @param parentIndex Index of the location of the parent
+	 * @return negative if parent is less than right child, positive if parent is
+	 *         greater than the right child
 	 */
 	private int rightCompare(int parentIndex) {
 		return innerCompare(maxHeap[parentIndex], maxHeap[rightChildIndex(parentIndex)]);
 	}
 
+	/**
+	 * Compares the values of a parent's children
+	 * 
+	 * @param parentIndex Index of the location of the parent
+	 * @return negative if left child is less than right child, positive if the left
+	 *         child is greater than the right child
+	 */
 	private int childsCompare(int parentIndex) {
 		return -innerCompare(maxHeap[leftChildIndex(parentIndex)], maxHeap[rightChildIndex(parentIndex)]);
 	}
 
+	/**
+	 * Swaps the left child with the parent child
+	 * 
+	 * @param parentIndex Index of the location of the parent
+	 */
 	private void swapLeft(int parentIndex) {
 		E holder = maxHeap[parentIndex];
 		maxHeap[parentIndex] = maxHeap[leftChildIndex(parentIndex)];
 		maxHeap[leftChildIndex(parentIndex)] = holder;
 	}
 
+	/**
+	 * Swaps the right child with the parent child
+	 * 
+	 * @param parentIndex Index of the location of the parent
+	 */
 	private void swapRight(int parentIndex) {
 		E holder = maxHeap[parentIndex];
 		maxHeap[parentIndex] = maxHeap[rightChildIndex(parentIndex)];
