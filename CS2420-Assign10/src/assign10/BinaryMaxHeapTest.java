@@ -20,7 +20,7 @@ class BinaryMaxHeapTest {
 	BinaryMaxHeap<Integer> BHIntBig = new BinaryMaxHeap<Integer>();
 
 	BinaryMaxHeap<String> BHStringEmpty = new BinaryMaxHeap<String>();
-	BinaryMaxHeap<String> BHStringCmp = new BinaryMaxHeap<String>(new OrderByA() );
+	BinaryMaxHeap<String> BHStringCmp = new BinaryMaxHeap<String>(new OrderByA());
 
 	// this code is stolen from the internet
 	private static String generateWord(int wordSize) {
@@ -35,20 +35,20 @@ class BinaryMaxHeapTest {
 
 		return randWord;
 	}
-	
+
 	// this code is stolen from the internet
-		private static String generateWord2(int wordSize) {
-			// just lowercase
-			int bottomLim = 97;
-			int topLim = 104;
+	private static String generateWord2(int wordSize) {
+		// just lowercase
+		int bottomLim = 97;
+		int topLim = 104;
 
-			Random random = new Random();
+		Random random = new Random();
 
-			String randWord = random.ints(bottomLim, topLim + 1).limit(wordSize)
-					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+		String randWord = random.ints(bottomLim, topLim + 1).limit(wordSize)
+				.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
 
-			return randWord;
-		}
+		return randWord;
+	}
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -133,7 +133,7 @@ class BinaryMaxHeapTest {
 			assertEquals(randVals.get(index), maxRemoved);
 		}
 	}
-	
+
 	@Test
 	void testExtractMaxNegativesSmall() {
 		Random rand = new Random();
@@ -151,7 +151,7 @@ class BinaryMaxHeapTest {
 			assertEquals(randVals.get(index), maxRemoved);
 		}
 	}
-	
+
 	@Test
 	void testExtractMaxNegativesBig() {
 		Random rand = new Random();
@@ -278,7 +278,7 @@ class BinaryMaxHeapTest {
 			assertEquals(randVals.get(index), maxRemoved);
 		}
 	}
-	
+
 	@Test
 	void testExtractMaxStringsSmall() {
 		ArrayList<String> randVals = new ArrayList<>(10000);
@@ -287,11 +287,11 @@ class BinaryMaxHeapTest {
 			randVals.add(val);
 			BHStringEmpty.add(val);
 		}
-		
+
 		Collections.sort(randVals, Collections.reverseOrder());
 //		System.out.println( randVals );
 //		System.out.println( Arrays.toString( BHStringEmpty.toArray() ) );
-		
+
 		for (int index = 0; index < 10; index++) {
 			String maxRemoved = BHStringEmpty.extractMax();
 //			System.out.println("MaxVal: " + randVals.get(index) + " MaxRemoved: " + maxRemoved);
@@ -299,7 +299,7 @@ class BinaryMaxHeapTest {
 //			System.out.println( Arrays.toString( BHStringEmpty.toArray() ) );
 		}
 	}
-	
+
 	@Test
 	void testExtractMaxStringsBig() {
 		ArrayList<String> randVals = new ArrayList<>(10000);
@@ -308,18 +308,18 @@ class BinaryMaxHeapTest {
 			randVals.add(val);
 			BHStringEmpty.add(val);
 		}
-		
+
 		Collections.sort(randVals, Collections.reverseOrder());
 //		System.out.println( randVals );
 //		System.out.println( Arrays.toString( BHStringEmpty.toArray() ) );
-		
+
 		for (int index = 0; index < 10000; index++) {
 			String maxRemoved = BHStringEmpty.extractMax();
 //			System.out.println("MaxVal: " + randVals.get(index) + " MaxRemoved: " + maxRemoved);
 			assertEquals(randVals.get(index), maxRemoved);
 		}
 	}
-	
+
 	@Test
 	void testExtractMaxComparatorStringsSmall() {
 		ArrayList<String> randVals = new ArrayList<>();
@@ -328,19 +328,19 @@ class BinaryMaxHeapTest {
 			randVals.add(val);
 			BHStringCmp.add(val);
 		}
-		
+
 		Collections.sort(randVals, new OrderByA());
-		System.out.println( randVals );
-		System.out.println( Arrays.toString( BHStringCmp.toArray() ) );
-		
+//		System.out.println(randVals);
+//		System.out.println(Arrays.toString(BHStringCmp.toArray()));
+
 		for (int index = 0; index < 10; index++) {
 			String maxRemoved = BHStringCmp.extractMax();
-			System.out.println("MaxVal: " + randVals.get(9-index) + "\tMaxRemoved: " + maxRemoved);
-			assertEquals(randVals.get(9-index), maxRemoved);
-			System.out.println( Arrays.toString( BHStringCmp.toArray() ) );
+//			System.out.println("MaxVal: " + randVals.get(9 - index) + "\tMaxRemoved: " + maxRemoved);
+			assertEquals(randVals.get(9 - index), maxRemoved);
+//			System.out.println(Arrays.toString(BHStringCmp.toArray()));
 		}
 	}
-	
+
 	@Test
 	void testExtractMaxComparatorStringsBig() {
 		ArrayList<String> randVals = new ArrayList<>(10000);
@@ -349,15 +349,15 @@ class BinaryMaxHeapTest {
 			randVals.add(val);
 			BHStringCmp.add(val);
 		}
-		
+
 		Collections.sort(randVals, new OrderByA());
 //		System.out.println( randVals );
 //		System.out.println( Arrays.toString( BHStringCmp.toArray() ) );
-		
+
 		for (int index = 0; index < 10000; index++) {
 			String maxRemoved = BHStringCmp.extractMax();
 //			System.out.println("MaxVal: " + randVals.get(9-index) + "\tMaxRemoved: " + maxRemoved);
-			assertEquals(randVals.get(9999-index), maxRemoved);
+			assertEquals(randVals.get(9999 - index), maxRemoved);
 //			System.out.println( Arrays.toString( BHStringCmp.toArray() ) );
 		}
 	}
@@ -367,10 +367,10 @@ class BinaryMaxHeapTest {
 	// -----------------------clear Tests Begin----------------------------
 	@Test
 	void testClearCommon() {
-		
+
 	}
 	// -----------------------clear Tests End----------------------------
-	
+
 	// -----------------------Comparator classes----------------------------
 	protected class OrderByA implements Comparator<String> {
 
@@ -378,26 +378,24 @@ class BinaryMaxHeapTest {
 		public int compare(String o1, String o2) {
 			int aCount1 = 0;
 			int aCount2 = 0;
-			
-			for(int i = 0; i < o1.length(); i++) {
-				if(o1.charAt(i) == 'a' || o1.charAt(i) == 'A') {
+
+			for (int i = 0; i < o1.length(); i++) {
+				if (o1.charAt(i) == 'a' || o1.charAt(i) == 'A') {
 					aCount1++;
 				}
 			}
-			
-			for(int i = 0; i < o2.length(); i++) {
-				if(o2.charAt(i) == 'a' || o2.charAt(i) == 'A') {
+
+			for (int i = 0; i < o2.length(); i++) {
+				if (o2.charAt(i) == 'a' || o2.charAt(i) == 'A') {
 					aCount2++;
 				}
 			}
-				
-			if(aCount1 > aCount2) {
+
+			if (aCount1 > aCount2) {
 				return 1;
-			}
-			else if( aCount1 < aCount2) {
+			} else if (aCount1 < aCount2) {
 				return -1;
-			}
-			else {
+			} else {
 				return o1.compareTo(o2);
 			}
 		}
