@@ -1,5 +1,6 @@
 package assign10;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -367,9 +368,251 @@ class BinaryMaxHeapTest {
 	// -----------------------clear Tests Begin----------------------------
 	@Test
 	void testClearCommon() {
-
+		assertFalse(0 == BHInt.size());
+		BHInt.clear();
+		assertTrue(0 == BHInt.size());
+	}
+	
+	@Test
+	void testClearEmpty() {
+		assertTrue(0 == BHIntEmpty.size());
+		BHIntEmpty.clear();
+		assertTrue(0 == BHIntEmpty.size());
+	}
+	
+	@Test
+	void testClearAddClear() {
+		assertFalse(0 == BHInt.size());
+		BHInt.clear();
+		assertTrue(0 == BHInt.size());
+		
+		Random rand = new Random();
+		ArrayList<Integer> randVals = new ArrayList<>(1000);
+		for (int index = 0; index < 10000; index++) {
+			int val = rand.nextInt(10000);
+			randVals.add(val);
+			BHInt.add(val);
+		}
+		
+		assertFalse(0 == BHInt.size());
+		BHInt.clear();
+		assertTrue(0 == BHInt.size());
 	}
 	// -----------------------clear Tests End----------------------------
+	
+	
+	
+	// -----------------------size Tests End----------------------------
+	@Test
+	void testSizeEmpty() {
+		assertTrue(0 == BHIntEmpty.size());
+	}
+	
+	@Test
+	void testSizeAfterAddSmall() {
+		assertTrue(6 == BHInt.size());
+	}
+	
+	@Test
+	void testSizeAfterAddBigSequentially() {
+		assertTrue(0 == BHIntEmpty.size());
+		
+		Random rand = new Random();
+		for (int k = 0; k < 10000; k++) {
+			int val = rand.nextInt(10000);
+			BHIntEmpty.add(val);
+			
+			assertEquals(k+1, BHIntEmpty.size()	);
+		}
+	}
+	
+	@Test
+	void testSizeAfterExtractBigSequentially() {
+		assertTrue(12 == BHIntBig.size());
+		
+		Random rand = new Random();
+		int testSize = BHIntBig.size();
+		
+		for (int k = 0; k < 10000; k++) {
+			int val = rand.nextInt(10000);
+			if(rand.nextInt(8) == 1) {
+				BHIntBig.extractMax();
+				testSize--;
+			}else {
+				BHIntBig.add(val);
+				testSize++;
+			}
+			assertEquals(testSize, BHIntBig.size()	);
+		}
+	}
+	// -----------------------size Tests End----------------------------
+	
+	
+	
+	// -----------------------peek Tests Begin----------------------------
+	@Test
+	void testPeekCommon() {
+		assertEquals(60, BHIntBig.peek());
+	}
+	
+	@Test
+	void testPeekBig() {		
+		Random rand = new Random();
+		ArrayList<Integer> randVals = new ArrayList<>(1000);
+		for (int index = 0; index < 10000; index++) {
+			int val = rand.nextInt(10000);
+			randVals.add(val);
+			BHIntEmpty.add(val);
+		}
+
+		Collections.sort(randVals, Collections.reverseOrder());
+
+		for (int index = 0; index < 10000; index++) {
+			int maxRemoved = BHIntEmpty.extractMax();
+			assertEquals(randVals.get(index), maxRemoved);
+		}
+	}
+	
+	@Test
+	void testPeekTwiceInRow() {
+		int peek1 = BHIntBig.peek();
+		BHIntBig.peek();
+		BHIntBig.peek();
+		BHIntBig.peek();
+		int peek2 = BHIntBig.peek();
+		assertEquals(peek1, peek2);
+	}
+	
+	@Test
+	void testPeekAfterAddSmall() {
+		int peek1 = BHIntBig.peek();
+		BHIntBig.peek();
+		BHIntBig.add(-99);
+		int peek2 = BHIntBig.peek();
+		assertEquals(peek1, peek2);
+	}
+	@Test
+	void testPeekAfterAddMax() {
+		int peek1 = BHIntBig.peek();
+		BHIntBig.peek();
+		BHIntBig.add(999);
+		int peek2 = BHIntBig.peek();
+		assertFalse(peek1 == peek2);
+		assertEquals(999, peek2);
+	}
+	
+	@Test
+	void testPeekAfterExtractMax() {
+		int peek1 = BHIntBig.peek();
+		assertEquals(BHIntBig.peek(), BHIntBig.extractMax());
+		assertEquals(BHIntBig.peek(), BHIntBig.extractMax());
+		assertEquals(BHIntBig.peek(), BHIntBig.extractMax());
+		assertEquals(BHIntBig.peek(), BHIntBig.extractMax());
+		assertFalse( peek1 == BHIntBig.peek() );
+	}
+	
+	@Test
+	void testPeekAfterClear() {
+		assertEquals( 60, BHIntBig.peek());
+		BHIntBig.clear();
+		assertThrows(NoSuchElementException.class, () -> {
+			BHIntBig.peek();
+		});
+		
+	}
+	
+	@Test
+	void testPeekOnEmpty() {
+		assertThrows(NoSuchElementException.class, () -> {
+			BHIntEmpty.peek();
+		});
+	}	
+	// -----------------------peek Tests End----------------------------
+	
+	
+	
+	
+	// -----------------------isEmpty Tests Begin----------------------------
+	@Test
+	void testIsEmptyNoAdds() {
+		assertTrue( BHIntEmpty.isEmpty() );
+	}
+	
+	@Test
+	void testIsEmptyAfterAdds1() {
+		assertFalse( BHInt.isEmpty() );
+		assertFalse( BHIntBig.isEmpty() );
+	}
+	
+	@Test
+	void testIsEmptyAfterAdds2() {
+		assertTrue( BHIntEmpty.isEmpty() );
+		BHIntEmpty.add(2);
+		assertFalse( BHInt.isEmpty() );
+	}
+	
+	@Test
+	void testIsEmptyAfterClear() {
+		assertFalse( BHIntBig.isEmpty() );
+		BHIntBig.clear();
+		assertTrue( BHIntBig.isEmpty() );
+	}
+	
+	@Test
+	void testIsEmptyAfterClearThenAdd() {
+		assertFalse( BHIntBig.isEmpty() );
+		BHIntBig.clear();
+		assertTrue( BHIntBig.isEmpty() );
+		BHIntBig.add(3);
+		assertFalse( BHIntBig.isEmpty() );
+		BHIntBig.add(3);
+		assertFalse( BHIntBig.isEmpty() );
+	}
+	
+	@Test
+	void testIsEmptyExtractMaxFalse() {
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+	}
+	
+	@Test
+	void testIsEmptyExtractMaxTrue() {
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertFalse( BHInt.isEmpty() );
+		BHInt.extractMax();
+		assertTrue( BHInt.isEmpty() );
+	}
+	
+	@Test
+	void testIsEmptyTwiceInRow() {
+		assertTrue( BHIntEmpty.isEmpty() );
+		assertTrue( BHIntEmpty.isEmpty() );
+		assertFalse( BHIntBig.isEmpty() );
+		assertFalse( BHIntBig.isEmpty() );
+	}
+	// -----------------------isEmpty Tests End----------------------------
+	
+	
+	
 
 	// -----------------------Comparator classes----------------------------
 	protected class OrderByA implements Comparator<String> {
