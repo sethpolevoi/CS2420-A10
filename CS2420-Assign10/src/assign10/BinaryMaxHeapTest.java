@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
@@ -19,6 +20,7 @@ class BinaryMaxHeapTest {
 	BinaryMaxHeap<Integer> BHIntBig = new BinaryMaxHeap<Integer>();
 
 	BinaryMaxHeap<String> BHStringEmpty = new BinaryMaxHeap<String>();
+	BinaryMaxHeap<String> BHStringCmp = new BinaryMaxHeap<String>(new OrderByA() );
 
 	// this code is stolen from the internet
 	private static String generateWord(int wordSize) {
@@ -33,6 +35,20 @@ class BinaryMaxHeapTest {
 
 		return randWord;
 	}
+	
+	// this code is stolen from the internet
+		private static String generateWord2(int wordSize) {
+			// just lowercase
+			int bottomLim = 97;
+			int topLim = 104;
+
+			Random random = new Random();
+
+			String randWord = random.ints(bottomLim, topLim + 1).limit(wordSize)
+					.collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append).toString();
+
+			return randWord;
+		}
 
 	@BeforeEach
 	void setUp() throws Exception {
@@ -101,11 +117,47 @@ class BinaryMaxHeapTest {
 	}
 
 	@Test
-	void testExtractMaxHugeArray() {
+	void testExtractMaxBig() {
 		Random rand = new Random();
 		ArrayList<Integer> randVals = new ArrayList<>(1000);
 		for (int index = 0; index < 10000; index++) {
 			int val = rand.nextInt(10000);
+			randVals.add(val);
+			BHIntEmpty.add(val);
+		}
+
+		Collections.sort(randVals, Collections.reverseOrder());
+
+		for (int index = 0; index < 10000; index++) {
+			int maxRemoved = BHIntEmpty.extractMax();
+			assertEquals(randVals.get(index), maxRemoved);
+		}
+	}
+	
+	@Test
+	void testExtractMaxNegativesSmall() {
+		Random rand = new Random();
+		ArrayList<Integer> randVals = new ArrayList<>(1000);
+		for (int index = 0; index < 10; index++) {
+			int val = rand.nextInt(10) - 5000;
+			randVals.add(val);
+			BHIntEmpty.add(val);
+		}
+
+		Collections.sort(randVals, Collections.reverseOrder());
+
+		for (int index = 0; index < 10; index++) {
+			int maxRemoved = BHIntEmpty.extractMax();
+			assertEquals(randVals.get(index), maxRemoved);
+		}
+	}
+	
+	@Test
+	void testExtractMaxNegativesBig() {
+		Random rand = new Random();
+		ArrayList<Integer> randVals = new ArrayList<>(1000);
+		for (int index = 0; index < 10000; index++) {
+			int val = rand.nextInt(10000) - 5000;
 			randVals.add(val);
 			BHIntEmpty.add(val);
 		}
@@ -237,13 +289,14 @@ class BinaryMaxHeapTest {
 		}
 		
 		Collections.sort(randVals, Collections.reverseOrder());
-		System.out.println( randVals );
-		System.out.println( Arrays.toString( BHStringEmpty.toArray() ) );
+//		System.out.println( randVals );
+//		System.out.println( Arrays.toString( BHStringEmpty.toArray() ) );
 		
 		for (int index = 0; index < 10; index++) {
 			String maxRemoved = BHStringEmpty.extractMax();
-			System.out.println("MaxVal: " + randVals.get(index) + " MaxRemoved: " + maxRemoved);
+//			System.out.println("MaxVal: " + randVals.get(index) + " MaxRemoved: " + maxRemoved);
 			assertEquals(randVals.get(index), maxRemoved);
+//			System.out.println( Arrays.toString( BHStringEmpty.toArray() ) );
 		}
 	}
 	
@@ -266,6 +319,48 @@ class BinaryMaxHeapTest {
 			assertEquals(randVals.get(index), maxRemoved);
 		}
 	}
+	
+	@Test
+	void testExtractMaxComparatorStringsSmall() {
+		ArrayList<String> randVals = new ArrayList<>();
+		for (int index = 0; index < 10; index++) {
+			String val = generateWord2(10);
+			randVals.add(val);
+			BHStringCmp.add(val);
+		}
+		
+		Collections.sort(randVals, new OrderByA());
+		System.out.println( randVals );
+		System.out.println( Arrays.toString( BHStringCmp.toArray() ) );
+		
+		for (int index = 0; index < 10; index++) {
+			String maxRemoved = BHStringCmp.extractMax();
+			System.out.println("MaxVal: " + randVals.get(9-index) + "\tMaxRemoved: " + maxRemoved);
+			assertEquals(randVals.get(9-index), maxRemoved);
+			System.out.println( Arrays.toString( BHStringCmp.toArray() ) );
+		}
+	}
+	
+	@Test
+	void testExtractMaxComparatorStringsBig() {
+		ArrayList<String> randVals = new ArrayList<>(10000);
+		for (int index = 0; index < 10000; index++) {
+			String val = generateWord2(25);
+			randVals.add(val);
+			BHStringCmp.add(val);
+		}
+		
+		Collections.sort(randVals, new OrderByA());
+//		System.out.println( randVals );
+//		System.out.println( Arrays.toString( BHStringCmp.toArray() ) );
+		
+		for (int index = 0; index < 10000; index++) {
+			String maxRemoved = BHStringCmp.extractMax();
+//			System.out.println("MaxVal: " + randVals.get(9-index) + "\tMaxRemoved: " + maxRemoved);
+			assertEquals(randVals.get(9999-index), maxRemoved);
+//			System.out.println( Arrays.toString( BHStringCmp.toArray() ) );
+		}
+	}
 
 	// -----------------------extractMax Tests End----------------------------
 
@@ -275,4 +370,36 @@ class BinaryMaxHeapTest {
 		
 	}
 	// -----------------------clear Tests End----------------------------
+	
+	// -----------------------Comparator classes----------------------------
+	protected class OrderByA implements Comparator<String> {
+
+		@Override
+		public int compare(String o1, String o2) {
+			int aCount1 = 0;
+			int aCount2 = 0;
+			
+			for(int i = 0; i < o1.length(); i++) {
+				if(o1.charAt(i) == 'a' || o1.charAt(i) == 'A') {
+					aCount1++;
+				}
+			}
+			
+			for(int i = 0; i < o2.length(); i++) {
+				if(o2.charAt(i) == 'a' || o2.charAt(i) == 'A') {
+					aCount2++;
+				}
+			}
+				
+			if(aCount1 > aCount2) {
+				return 1;
+			}
+			else if( aCount1 < aCount2) {
+				return -1;
+			}
+			else {
+				return o1.compareTo(o2);
+			}
+		}
+	}
 }
