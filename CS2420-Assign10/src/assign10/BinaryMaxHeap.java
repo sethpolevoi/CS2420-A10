@@ -16,21 +16,34 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 	//that natural ordering (comparable) will be used for comparisons.	
 	 
 	public BinaryMaxHeap() {
-		maxHeap = (E[]) new Object[10];
+		maxHeap = (E []) new Object[10];
 		cmp = null;
+		size = 0;
+		capacity = 10;
 		
 	}
 	
 	public BinaryMaxHeap(Comparator<? super E> cmp) {
-		
+		maxHeap = (E[]) new Object[10];
+		this.cmp = cmp;
+		size = 0;
+		capacity = 10;
 	}
 	
 	public BinaryMaxHeap(List<? extends E> numList) {
-		
+		cmp = null;
+		maxHeap = (E[]) new Object[numList.size()];
+		size = 0;
+		capacity = numList.size();
+		buildHeap(numList);
 	}
 	
 	public BinaryMaxHeap(List<? extends E> numList, Comparator<? super E> cmp) {
-		
+		this.cmp = cmp;
+		maxHeap = (E[]) new Object[numList.size()];
+		size = 0;
+		capacity = numList.size();
+		buildHeap(numList);
 	}
 
 	/**
@@ -41,10 +54,16 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 	 */
 	@Override
 	public void add(E item) {
-		
+		//If array is too small for another item, grow it.
 		if(size+1 > capacity) {
 			growArray();
 		}
+		//Add item to last index in current array
+		maxHeap[size] = item;
+		//Percolate item to its correct position
+		percolateUp();
+		//Increment size
+		size++;
 		
 	}
 	
@@ -112,6 +131,15 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 		return maxVal;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	private int innerCompare(E item1, E item2) {
+		if (cmp == null) {
+			return ((Comparable<? super E>)item1).compareTo(item2);
+		}
+		return cmp.compare(item1, item2);
+	}
+	
 	private boolean removeMax() {
 		//replace max with last item on last level
 		maxHeap[0] = maxHeap[size-1];
@@ -164,9 +192,10 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 		maxHeap[rightChildIndex(parentIndex)] = holder;
 	}
 	
-	private int compareItems(E item1, E item2) {
+	@SuppressWarnings("unchecked")
+	private int innerCompare(E item1, E item2) {
 		if (cmp == null) {
-			return item1.compareTo(item2);
+			return ((Comparable<? super E>)item1).compareTo(item2);
 		}
 		return cmp.compare(item1, item2);
 	}
@@ -203,6 +232,30 @@ public class BinaryMaxHeap<E extends Comparable<E>> implements PriorityQueue<E>{
 	public Object[] toArray() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	private void buildHeap(List<? extends E> numList) {
+		for(E item : numList) {
+			this.add(item);
+		}
+	}
+	
+	private void percolateUp() {
+		int currentIndex = size;
+		//while currentIndex value is greater than its parents value, 
+		//execute switch, and update currentIndex to equal the index it was switched with
+		while(currentIndex > 0 && innerCompare(maxHeap[currentIndex], maxHeap[parentIndex(currentIndex)]) > 0) {
+			//preserve parent value
+			E temp = maxHeap[parentIndex(currentIndex)];
+			//copy child value to parent index
+			maxHeap[parentIndex(currentIndex)] = maxHeap[currentIndex];
+			//copy parent value to child index
+			maxHeap[currentIndex] = temp;
+			
+			//update current index so we know examine at a level higher
+			currentIndex = parentIndex(currentIndex);
+		}
+		
 	}
 	
 //	public static void main(String[] args) {
